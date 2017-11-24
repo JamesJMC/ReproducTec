@@ -10,7 +10,6 @@ GPIO.cleanup
 
 #funcion para poner en play la cancion
 def play_Audio():
-    #pygame.mixer.init()
     global cont
     global vol
     print("PLAY")
@@ -18,7 +17,7 @@ def play_Audio():
     #print(len(solo_archivos))
     if pygame.mixer.music.get_busy() == True:
         print("Poner play de nuevo")
-        pygame.mixer.music.unpause()               #se hace un stop a la cancion que esta sonando
+        pygame.mixer.music.unpause()               
     else:
         pygame.mixer.music.load(solo_archivos[cont])
         pygame.mixer.music.set_volume(vol)
@@ -27,11 +26,8 @@ def play_Audio():
             #cont = 0
             pygame.mixer.music.queue(solo_archivos[0])
         else:
-            #cont = cont +1
-            pygame.mixer.music.queue(solo_archivos[cont])##cont+1
-    #while pygame.mixer.music.get_busy() == True:        #si se esta reproduciendo la cancion continua
-    #    continue
-    #cont = cont +1;                                     #cuando termina se pasa a la siguiente cancion
+            cont = cont +1
+            pygame.mixer.music.queue(solo_archivos[cont])
 
 
 
@@ -105,20 +101,14 @@ def volumeDown_Audio():
 def next_Audio():
     print("Cancion siguiente")
     global cont
-    print("largo: ",cont+1,len(solo_archivos))
     if cont+1 == len(solo_archivos):            #si esta ubicado en la ultima posicion de la lista (ultima cancion) se inicia en 0 (primer cancion)
-        print("jaskdhkjahskdjfhakjshdkjfhakjsdhfkjahskjdhfkjahsdkjfas")
-        print("Inicializar en 0: "+str(cont))
         cont = 0
-        print("Valor de cont = "+str(cont))
         pygame.mixer.music.stop()               #se hace un stop a la cancion que esta sonando
         play_Audio()         #se manda a reproducir la siguiente cancion
                 
     else:#pygame.mixer.music.get_busy() == True:   #si esta en reproccion
-        print("ENTRA AQUI")
         pygame.mixer.music.stop()               #se hace un stop a la cancion que esta sonando
         cont += 1                                 #siguiente cancion en la lista
-        print("Valor de cont = "+str(cont))
         play_Audio()
 
 
@@ -138,7 +128,7 @@ def preview_Audio():
 
 
 #DIRECCION DE LA CARPETA DE MUSICA
-path = "/home/pi/Desktop/Proyecto/music"
+path = "music"
 
 #VARIABLES DE LOS BOTONES
 btnPlay = 14
@@ -166,7 +156,7 @@ led6 = 13
 led7 = 19
 
 #CONFIGURAR LOS PINES
-GPIO.setup(led1, GPIO.OUT)           #ACTIVAR LAS RESISTENCIAS PUD_UP
+GPIO.setup(led1, GPIO.OUT)           
 GPIO.setup(led2, GPIO.OUT)
 GPIO.setup(led3, GPIO.OUT)
 GPIO.setup(led4, GPIO.OUT)
@@ -187,7 +177,6 @@ pygame.mixer.init()
 #INDICE DE LA LISTA CON LOS ARCHIVOS
 vol = 0.6
 cont = 0
-print(solo_archivos[cont])
 
 
 #PONER VOLUMEN VISUALIZADO EN LOS LEDS
